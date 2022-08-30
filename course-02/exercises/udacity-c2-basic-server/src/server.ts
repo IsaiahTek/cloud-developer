@@ -1,9 +1,7 @@
 import express, { Router, Request, Response } from 'express';
 // import bodyParser from 'body-parser'; deprecated
 const bodyParser = require('body-parser')
-
 import { Car, cars as cars_list } from './cars';
-
 (async () => {
   let cars:Car[]  = cars_list;
 
