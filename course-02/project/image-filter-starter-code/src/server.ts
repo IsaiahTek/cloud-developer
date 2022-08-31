@@ -32,6 +32,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       // Deletes the file from the file system after .5 seconds
       setTimeout(()=>deleteLocalFiles([imageDir]), 500)
     }catch(err){
+      res.status(503)
       return next(err)
     }
   })
