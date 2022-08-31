@@ -1,4 +1,5 @@
-import express from 'express';
+import express from 'express'
+import {Request, Response, NextFunction} from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -8,7 +9,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   const app = express();
 
   // Set the network port
-  const port = process.env.PORT || 8082;
+  const port:string = process.env.PORT || '8082';
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
@@ -24,11 +25,15 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
-  app.get("/filteredimage", async (req, res) => {
-    let imageDir = await filterImageFromURL(req.query.image_url)
-    res.sendFile(imageDir)
-    // Deletes the file from the file system after .5 seconds
-    setTimeout(()=>deleteLocalFiles([imageDir]), 500)  
+  app.get("/filteredimage", async (req:Request, res:Response, next:NextFunction) => {
+    try{
+      let imageDir:string = await filterImageFromURL(req.query.image_url)
+      res.status(200).sendFile(imageDir)
+      // Deletes the file from the file system after .5 seconds
+      setTimeout(()=>deleteLocalFiles([imageDir]), 500)
+    }catch(err){
+      return next(err)
+    }
   })
 
 

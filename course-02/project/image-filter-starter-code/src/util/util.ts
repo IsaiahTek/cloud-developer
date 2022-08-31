@@ -5,7 +5,7 @@ import axios from 'axios'
 export async function filterImageFromURL(inputURL: string): Promise<string> {
   return new Promise(async (resolve, reject) => {
     try {
-      const photo = await axios({
+      const photo:Jimp = await axios({
         method: 'get',
         url: inputURL,
         responseType: 'arraybuffer'
@@ -13,7 +13,7 @@ export async function filterImageFromURL(inputURL: string): Promise<string> {
       .then(function ({data: imageBuffer}) {
         return Jimp.read(imageBuffer)
       });
-      const outpath = "/tmp/filtered-" + Math.floor(Math.random() * 2000) + ".jpg";
+      const outpath:string = "/tmp/filtered-" + Math.floor(Math.random() * 2000) + ".jpg";
       await photo
         .resize(256, 256) // resize
         .quality(60) // set JPEG quality
