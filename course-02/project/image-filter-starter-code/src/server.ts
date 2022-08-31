@@ -17,7 +17,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req:Request, res:Response ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+    res.status(200).send("try GET /filteredimage?image_url={{}}")
   } );
 
   // QUERY PARAMATERS
@@ -28,11 +28,12 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.get("/filteredimage", async ( req:Request, res:Response, next:NextFunction ) => {
     try{
       let imageDir:string = await filterImageFromURL(req.query.image_url)
-      res.sendFile(imageDir)
+      res.status(200).sendFile(imageDir)
       // Deletes the file from the file system after .5 seconds
       setTimeout(()=>deleteLocalFiles([imageDir]), 500)  
     }catch(err){
-      next(err)
+      res.status(503)
+      return next(err)
     }
   })
 
