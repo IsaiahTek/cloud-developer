@@ -5,7 +5,7 @@ import axios from 'axios'
 export async function filterImageFromURL(inputURL: string): Promise<string> {
   return new Promise(async (resolve, reject) => {
     try {
-      const photo = await axios({
+      const photo:Jimp = await axios({
         method: 'get',
         url: inputURL,
         responseType: 'arraybuffer'
